@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Şifre Oluşturucu</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="options-container">
+        <label>
+            <input type="checkbox" id="includeUppercase" checked>
+            Büyük Harf
+        </label>
+        <label>
+            <input type="checkbox" id="includeNumbers" checked>
+            Sayı
+        </label>
+        <label>
+            <input type="checkbox" id="includeSpecialChars" checked>
+            Özel Karakter
+        </label>
+    </div>
+
+    <div class="main-container">
+        <h1>ŞİFRE OLUŞTURUCU</h1>
+        <input type="text" id="passwordDisplay" readonly>
+        <div class="controls-row">
+            <button id="generateBtn">Oluştur</button>
+            <button id="copyBtn">Kopyala</button> 
+            <button id="clearBtn">Temizle</button>
+        </div>
+        <div class="length-control">
+            <input type="range" id="lengthSlider" min="12" max="64" value="16">
+            <input type="number" id="lengthInput" min="12" max="64" value="16">
+        </div>
+    </div>
+
+    <p class="footer-text">Taylan Aydın Tarafından Yapılmıştır</p>
+
+    <script src="main.js"></script>
+</body>
+</html>

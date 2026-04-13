@@ -90,6 +90,15 @@ h1 {
 
 .icon-btn:hover { color: var(--fg); }
 
+.icon-btn--left {
+    border-left: 0;
+    border-right: 1px solid var(--border);
+}
+
+.icon-btn .eye-closed { display: none; }
+.icon-btn[aria-pressed="true"] .eye-open { display: none; }
+.icon-btn[aria-pressed="true"] .eye-closed { display: block; }
+
 .strength {
     display: flex;
     align-items: center;

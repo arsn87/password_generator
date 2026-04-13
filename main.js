@@ -10,6 +10,16 @@ const includeSpecialChars = document.getElementById('includeSpecialChars');
 const strengthFill = document.getElementById('strengthFill');
 const strengthLabel = document.getElementById('strengthLabel');
 const toast = document.getElementById('toast');
+const toggleVisibilityBtn = document.getElementById('toggleVisibilityBtn');
+
+let realPassword = '';
+let hidden = false;
+
+function renderPassword() {
+    passwordDisplay.value = hidden && realPassword
+        ? '•'.repeat(realPassword.length)
+        : realPassword;
+}
 
 const LOWER = "abcdefghijklmnopqrstuvwxyz";
 const UPPER = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -71,7 +81,7 @@ function estimateStrength(pw) {
 }
 
 function updateStrength() {
-    const { pct, label, color } = estimateStrength(passwordDisplay.value);
+    const { pct, label, color } = estimateStrength(realPassword);
     strengthFill.style.width = pct + '%';
     strengthFill.style.background = color;
     strengthLabel.textContent = label;
@@ -94,17 +104,25 @@ generateBtn.addEventListener('click', () => {
     const length = clampLength(lengthInput.value);
     lengthInput.value = length;
     lengthSlider.value = length;
-    passwordDisplay.value = generatePassword(length);
+    realPassword = generatePassword(length);
+    renderPassword();
     updateStrength();
 });
 
 clearBtn.addEventListener('click', () => {
-    passwordDisplay.value = '';
+    realPassword = '';
+    renderPassword();
     updateStrength();
 });
 
+toggleVisibilityBtn.addEventListener('click', () => {
+    hidden = !hidden;
+    toggleVisibilityBtn.setAttribute('aria-pressed', String(hidden));
+    renderPassword();
+});
+
 copyBtn.addEventListener('click', async () => {
-    const pw = passwordDisplay.value;
+    const pw = realPassword;
     if (!pw) return;
     try {
         await navigator.clipboard.writeText(pw);
@@ -135,8 +153,9 @@ lengthInput.addEventListener('blur', () => {
 
 [includeUppercase, includeNumbers, includeSpecialChars].forEach(cb => {
     cb.addEventListener('change', () => {
-        if (passwordDisplay.value) {
-            passwordDisplay.value = generatePassword(clampLength(lengthInput.value));
+        if (realPassword) {
+            realPassword = generatePassword(clampLength(lengthInput.value));
+            renderPassword();
             updateStrength();
         }
     });
